@@ -8,6 +8,7 @@
 1. `aiohttp`
 2. `aiohttp_socks`
 3. `asyncio`
+4. `psutil`
 
 Библиотеки Python устанавливаются следующей коммандой:
 
