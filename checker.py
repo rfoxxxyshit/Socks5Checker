@@ -11,7 +11,7 @@ import pytz
 import json
 
 
-def clearConsole():
+def clear_console():
     if psutil.WINDOWS:
         return os.system("cls")
     else:
@@ -26,17 +26,19 @@ fastProxys = []
 slowProxys = []
 checked = []
 
-clearConsole()
+clear_console()
 
-print("   _____            _        _____  _____ _               _             \n"
-      "  / ____|          | |      | ____|/ ____| |             | |            \n"
-      " | (___   ___   ___| | _____| |__ | |    | |__   ___  ___| | _____ _ __ \n"
-      "  \___ \ / _ \ / __| |/ / __|___ \| |    | '_ \ / _ \/ __| |/ / _ \ '__|\n"
-      "  ____) | (_) | (__|   <\__ \___) | |____| | | |  __/ (__|   <  __/ |   \n"
-      " |_____/ \___/ \___|_|\_\___/____/ \_____|_| |_|\___|\___|_|\_\___|_|   \n\n"
-      "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n\n"
+print("   _____            _        _____  _____ _               _             \n"  # noqa
+      "  / ____|          | |      | ____|/ ____| |             | |            \n"  # noqa
+      " | (___   ___   ___| | _____| |__ | |    | |__   ___  ___| | _____ _ __ \n"  # noqa
+      "  \___ \ / _ \ / __| |/ / __|___ \| |    | '_ \ / _ \/ __| |/ / _ \ '__|\n"  # noqa
+      "  ____) | (_) | (__|   <\__ \___) | |____| | | |  __/ (__|   <  __/ |   \n"  # noqa
+      " |_____/ \___/ \___|_|\_\___/____/ \_____|_| |_|\___|\___|_|\_\___|_|   \n\n"  # noqa
+      "- - - - - - - - - - - - - - - - - - - - - - - "
+      "- - - - - - - - - - - - - \n\n"
       "Скрипт создан @ulbwaa для @rfoxxxyshit\n\n"
-      "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n"
+      "- - - - - - - - - - - - - - - - - - - - - - - "
+      "- - - - - - - - - - - - - \n"
       )
 
 if random.choice([True, False]):
@@ -44,7 +46,8 @@ if random.choice([True, False]):
           'https://github.com/Ulbwaa\n'
           'https://github.com/rfoxxxyshit\n'
           'https://github.com/rfoxxxy\n\n'
-          '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n'
+          '- - - - - - - - - - - - - - - - - - - - - - -'
+          ' - - - - - - - - - - - - - \n'
           )
 
 time.sleep(5)
@@ -53,13 +56,17 @@ time.sleep(5)
 try:
     with open('proxy.txt', 'r') as f:
         proxys = f.read().split('\n')
-        print(f'Прокси успешно загружены. Всего прокси загружено: {len(proxys)}.\n\n'
-              f'Начинаю проверку...',
-              end='\n\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n\n')
+        print('Прокси успешно загружены. Всего прокси '
+              f'загружено: {len(proxys)}.\n\n'
+              'Начинаю проверку...',
+              end=('\n\n- - - - - - - - - - - - - - - - - - -'
+                   ' - - - - - - - - - - - - - - - - - \n\n'))
 except FileNotFoundError:
     print('Файл proxy.txt не найден. Пожалуйста, создайте его и поместите '
-          'туда\n\nсписок ваших прокси для обеспечения работоспособности скрипта.',
-          end='\n\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n\n'
+          'туда\n\nсписок ваших прокси для обеспечения '
+          'работоспособности скрипта.',
+          end='\n\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - '
+          '- - - - - - - - \n\n'
           )
     exit(-1)
 
@@ -75,7 +82,7 @@ def write():
         file.write("\n".join(slowProxys))
 
 
-def getTime():
+def get_time():
     time = datetime.datetime.now(pytz.timezone('Europe/Moscow'))
 
     if len(str(time.hour)) < 2:
@@ -99,14 +106,17 @@ def getTime():
 async def checkProxys():
     i = 0
     r = 0
+    working = skipped = 0
 
     for proxy in proxys:
         if proxy.split(':')[0] in checked:
-            r += 1
+            skipped += 1
             continue
 
         url = random.choice(urls)
-        print(f'[{getTime()}] Проверяю {proxy} (Подключение к {url.split("/")[2]}):', end='\n')
+        print(f'[{get_time()}] Проверяю {proxy} '
+              f'(Подключение к {url.split("/")[2]}):',
+              end='\n')
         connector = ProxyConnector.from_url(f'socks5://{proxy}',
                                             limit=200,
                                             limit_per_host=200,
@@ -116,41 +126,52 @@ async def checkProxys():
 
         try:
             async with aiohttp.ClientSession(connector=connector) as session:
-                async with session.get('https://ramziv.com/ip', timeout=5) as response:
+                async with session.get('https://ramziv.com/ip', timeout=5) \
+                  as response:
                     ip = await response.text()
 
-                async with session.get(f'http://www.geoplugin.net/json.gp?{ip}', timeout=5) as response:
-                    country = json.loads(await response.text())['geoplugin_countryName']
+                async with session.get(
+                    f'http://www.geoplugin.net/json.gp?{ip}',
+                    timeout=5
+                ) as response:
+                    country = json.loads(
+                        await response.text()
+                    )[
+                        'geoplugin_countryName'
+                    ]
 
-                start_time_stamp = datetime.datetime.timestamp(datetime.datetime.now())
+                start_time_stamp = time.time()
 
                 async with session.get(url, timeout=5):
                     await session.close()
 
-                ping = round((datetime.datetime.timestamp(datetime.datetime.now()) - start_time_stamp) * 1000)
+                ping = round((time.time() - start_time_stamp) * 1000)
                 allProxys.append(proxy)
 
-                if ping <= 1000:
+                if ping <= 1100:
                     fastProxys.append(proxy)
                 else:
                     slowProxys.append(proxy)
 
                 write()
 
-                i += 1
+                working += 1
                 checked.append(proxy.split(':')[0])
-                print(f'[{getTime()}] Успешное подключение! (Задержка: {ping} ms, IP-Адрес: {ip}), '
+                print(f'[{get_time()}] Успешное подключение! '
+                      f'(Задержка: {ping} ms, IP-Адрес: {ip}), '
                       f'страна: {country})',
-                      end='\n\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n\n')
-        except ssl.SSLError:
-            pass
-        except (Exception, BaseException):
-            r += 1
+                      end=('\n\n- - - - - - - - - - - - - - - - - - - - - - '
+                           '- - - - - - - - - - - - - - \n\n'))
+        except Exception:
+            skipped += 1
             checked.append(proxy.split(':')[0])
-            print(f'[{getTime()}] Неудачное подключение.',
-                  end='\n\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n\n')
+            print(f'[{get_time()}] Неудачное подключение.',
+                  end=('\n\n- - - - - - - - - - - - - - - - '
+                       '- - - - - - - - - - '
+                       '- - - - - - - - - - \n\n'))
 
-    print(f'Проверка завершена! Нашлись {i} работоспособных прокси. {r} прокси были пропущены.\n'
+    print(f'Проверка завершена! Нашлись {i} работоспособных прокси. {r} '
+          'прокси были пропущены.\n'
           f'Все работоспособные прокси сохранены в файле allProxys.txt.\n'
           'Быстрые прокси сохранены в файле fastProxys.txt\n'
           'Медленные прокси сохранены в файле slowProxys.txt')
