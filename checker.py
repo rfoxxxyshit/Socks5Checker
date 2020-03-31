@@ -52,7 +52,6 @@ if random.choice([True, False]):
 
 time.sleep(5)
 
-
 try:
     with open('proxy.txt', 'r') as f:
         proxys = f.read().split('\n')
@@ -66,7 +65,7 @@ except FileNotFoundError:
           'туда\n\nсписок ваших прокси для обеспечения '
           'работоспособности скрипта.',
           end='\n\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - '
-          '- - - - - - - - \n\n'
+              '- - - - - - - - \n\n'
           )
     exit(-1)
 
@@ -125,12 +124,12 @@ async def checkProxys():
         try:
             async with aiohttp.ClientSession(connector=connector) as session:
                 async with session.get('https://ramziv.com/ip', timeout=5) \
-                  as response:
+                        as response:
                     ip = await response.text()
 
                 async with session.get(
-                    f'http://www.geoplugin.net/json.gp?{ip}',
-                    timeout=5
+                        f'http://www.geoplugin.net/json.gp?{ip}',
+                        timeout=5
                 ) as response:
                     country = json.loads(
                         await response.text()
@@ -172,7 +171,10 @@ async def checkProxys():
           f' {skipped} прокси были пропущены.\n'
           f'Все работоспособные прокси сохранены в файле allProxys.txt.\n'
           'Быстрые прокси сохранены в файле fastProxys.txt\n'
-          'Медленные прокси сохранены в файле slowProxys.txt')
+          'Медленные прокси сохранены в файле slowProxys.txt',
+          end=('\n\n- - - - - - - - - - - - - - - - '
+               '- - - - - - - - - - '
+               '- - - - - - - - - - \n\n'))
 
     exit(0)
 
