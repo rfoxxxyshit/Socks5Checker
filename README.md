@@ -1,4 +1,5 @@
 # Socks5Checker
+<p align="center"><a href="https://www.codacy.com/gh/rfoxxxyshit/Socks5Checker?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rfoxxxyshit/Socks5Checker&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/d4656ba0c1ee42b9b0f6f589193c3bc7"/></a></p>
 <p align="center">CLI-скрипт для проверки Socks5 прокси на работоспособность.</p>
 
 # Установка
